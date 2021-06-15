@@ -1,33 +1,68 @@
-import React, { Component } from 'react'
-import { Button, Form, Container, Header } from 'semantic-ui-react'
+import React, { useState } from 'react';
+import { Button, Form, Container, Header } from 'semantic-ui-react';
+import axios from 'axios';
 import './App.css';
 
-export default class App extends Component {
-  render() {
-    return (
-      <Container fluid className="container">
-        <Header as='h2'>React Google Sheets!</Header>
-        <Form className="form">
-          <Form.Field>
-            <label>Name</label>
-            <input placeholder='Enter your name' />
-          </Form.Field>
-          <Form.Field>
-            <label>Age</label>
-            <input placeholder='Enter your age' />
-          </Form.Field>
-          <Form.Field>
-            <label>Salary</label>
-            <input placeholder='Enter your salary' />
-          </Form.Field>
-          <Form.Field>
-            <label>Hobby</label>
-            <input placeholder='Enter your hobby' />
-          </Form.Field>
-          
-          <Button color="blue" type='submit'>Submit</Button>
-        </Form>
-      </Container>
-    )
-  }
+function App() {
+	const [name, setName] = useState('');
+	const [age, setAge] = useState('');
+	const [salary, setSalary] = useState('');
+	const [hobby, setHobby] = useState('');
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		const objt = { name, age, salary, hobby };
+
+		axios
+			.post(
+				'https://sheet.best/api/sheets/516c1755-c300-4d2d-a109-280c18181eecc',
+				objt
+			)
+			.then((response) => {
+				console.log(response);
+			});
+	};
+
+	return (
+		<Container fluid className="container">
+			<Header as="h2">React google sheet</Header>
+			<Form className="form">
+				<Form.Field>
+					<label>Name</label>
+					<input
+						placeholder="Enter your Name"
+						onChange={(e) => setName(e.target.value)}
+					/>
+				</Form.Field>
+				<Form.Field>
+					<label>Age</label>
+					<input
+						placeholder="Enter your Age"
+						onChange={(e) => setAge(e.target.value)}
+					/>
+				</Form.Field>
+				<Form.Field>
+					<label>Salary</label>
+					<input
+						placeholder="Enter your Salary"
+						onChange={(e) => setSalary(e.target.value)}
+					/>
+				</Form.Field>
+				<Form.Field>
+					<label>Hobby</label>
+					<input
+						placeholder="Enter your Hobby"
+						onChange={(e) => setHobby(e.target.value)}
+					/>
+				</Form.Field>
+
+				<Button color="blue" type="submit" onClick={handleSubmit}>
+					Submit
+				</Button>
+			</Form>
+		</Container>
+	);
 }
+
+export default App;
